@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/web-manifest.json",
+  "name": "PWA Example",
+  "short_name": "paw",
+  "background_color": "#323232",
+  "theme_color": "#07b0f2",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "purpose": "any maskable monochrome",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
