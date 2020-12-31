@@ -1,27 +1,56 @@
-var precaching = [
+const APP_VERSION = '1.42';
+const CACHE_NAME = 'static-v' + APP_VERSION;
+
+const precaching = [
   '/',
   '/index.html',
   '/index.js',
   '/manifest.json',
-  '/static/icon.svg'
+  '/static/icon.svg',
+  'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'
 ];
 
 function isPage(request) {
-  if (request.mode === 'navigate' && /\/[\w\-]+$/gi.test(request.url)) {
-    return true;
+  if (request.mode !== 'navigate') {
+    return false;
   }
 
-  return false;
+  if (request.destination !== 'document') {
+    return false;
+  }
+
+  if (!/\/[\w\-]*\/?$/gi.test(request.url)) {
+    return false;
+  }
+
+  return true;
 }
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
 
   event.waitUntil(
-    caches.open('static').then(function (cache) {
-      console.log('[sw] precaching resources ...');
-      return cache.addAll(precaching).then(function () {
-        console.log('[sw] resources had been precached!');
+    caches.open(CACHE_NAME).then(function (cache) {
+      return cache.addAll(precaching);
+    })
+  );
+});
+
+self.addEventListener('activate', function (event) {
+  event.waitUntil(
+    Promise.all([
+      clients.claim(),
+      caches.keys().then(function (cacheNames) {
+        const staleCacheNames = cacheNames.filter((x) => x !== CACHE_NAME);
+        staleCacheNames.forEach(function (cacheName) {
+          caches.delete(cacheName);
+        });
+      })
+    ]).then(function () {
+      return clients.matchAll().then(function (clientList) {
+        clientList.forEach(function (client) {
+          client.postMessage({ type: 'installed', version: APP_VERSION });
+        });
       });
     })
   );

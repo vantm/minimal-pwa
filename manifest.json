@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/web-manifest.json",
   "name": "PWA Example",
-  "short_name": "paw",
+  "short_name": "PWA Example",
   "background_color": "#323232",
   "theme_color": "#07b0f2",
   "start_url": "/",

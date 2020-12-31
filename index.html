@@ -8,9 +8,61 @@
     <title>PWA</title>
     <link rel="shortcut icon" href="/static/icon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.json" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <style lang="text/css">
+      .hide { display: none; }
+      .p1 { padding: 1rem; }
+      #version { font-size: small; }
+    </style>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <main class="container">
+      <h1>PWA Example</h1>
+      <div class="py-1">
+        <button id="btn-update" class="btn btn-primary">
+          Check for update
+        </button>
+        <button id="btn-ask-notification-grant" class="btn btn-info">
+          Allow to notify
+        </button>
+      </div>
+    </main>
+    <div
+      id="toast-update-version"
+      class="toast d-flex align-items-center text-white bg-primary border-0 position-absolute bottom-0 end-0 mb-2 me-2"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div id="version-text" class="toast-body"></div>
+      <button
+        id="btn-update-version"
+        type="button"
+        class="btn text-white ms-auto me-2 d-flex"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-arrow-repeat"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+          />
+        </svg>
+      </button>
+    </div>
     <script src="/index.js"></script>
   </body>
 </html>
