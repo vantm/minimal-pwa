@@ -14,19 +14,11 @@
       integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
       crossorigin="anonymous"
     />
-    <style lang="text/css">
-      .hide { display: none; }
-      .p1 { padding: 1rem; }
-      #version { font-size: small; }
-    </style>
   </head>
   <body>
     <main class="container">
       <h1>PWA Example</h1>
-      <div class="py-1">
-        <button id="btn-update" class="btn btn-primary">
-          Check for update
-        </button>
+      <div class="py-1 d-none" id="permission-div">
         <button id="btn-ask-notification-grant" class="btn btn-info">
           Allow to notify
         </button>

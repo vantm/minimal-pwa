@@ -1,10 +1,6 @@
 function registerNotification(sw) {
   navigator.serviceWorker.onmessage = function (event) {
     if (event.data?.type === 'installed') {
-      new Notification(
-        "🎉 Your app've updated. Please refresh by click reload button to update new version"
-      );
-
       var btnUpdateVersion = document.getElementById('btn-update-version');
       var toastUpdateVersion = document.getElementById('toast-update-version');
       var textVersion = document.getElementById('version-text');
@@ -19,12 +15,6 @@ function registerNotification(sw) {
 }
 
 function postSWRegistration(sw) {
-  var btnUpdate = document.getElementById('btn-update');
-
-  btnUpdate.onclick = function () {
-    sw.update();
-  };
-
   var btnAskNotificationGrant = document.getElementById(
     'btn-ask-notification-grant'
   );
@@ -35,12 +25,19 @@ function postSWRegistration(sw) {
     } else if (Notification.permission === 'granted') {
       new Notification('🎉 Hooray!!! You was granted this permission.');
     } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(function (permission) {
-        if (permission === 'granted') {
-          new Notification('🎉 Hi there! The notification works.');
-          registerNotification(sw);
-        }
-      });
+      btnAskNotificationGrant.setAttribute('disabled', 'disabled');
+
+      Notification.requestPermission()
+        .then(function (permission) {
+          if (permission === 'granted') {
+            new Notification('🎉 Hi there! The notification works.');
+            registerNotification(sw);
+            document.getElementById('permission-div').classList.add('d-none');
+          }
+        })
+        .finally(function () {
+          btnAskNotificationGrant.removeAttribute('disabled');
+        });
     } else {
       alert('Notification was rejected! Turn on by change browser settings.');
     }
@@ -48,6 +45,8 @@ function postSWRegistration(sw) {
 
   if (Notification.permission === 'granted') {
     registerNotification(sw);
+  } else {
+    document.getElementById('permission-div').classList.remove('d-none');
   }
 }
 

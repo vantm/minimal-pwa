@@ -1,30 +1,12 @@
-const APP_VERSION = '1.42';
+const APP_VERSION = '1.2';
 const CACHE_NAME = 'static-v' + APP_VERSION;
-
 const precaching = [
   '/',
-  '/index.html',
   '/index.js',
   '/manifest.json',
   '/static/icon.svg',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'
 ];
-
-function isPage(request) {
-  if (request.mode !== 'navigate') {
-    return false;
-  }
-
-  if (request.destination !== 'document') {
-    return false;
-  }
-
-  if (!/\/[\w\-]*\/?$/gi.test(request.url)) {
-    return false;
-  }
-
-  return true;
-}
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
@@ -57,12 +39,18 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  if (isPage(event.request)) {
+  var request = event.request;
+
+  if (
+    request.mode === 'navigate' &&
+    request.destination === 'document' &&
+    (/\/[\w\-]*\/?$/gi.test(request.url) || request.url === '/index.html')
+  ) {
     event.respondWith(caches.match('/'));
   } else {
     event.respondWith(
-      caches.match(event.request).then(function (response) {
-        return response || fetch(event.request);
+      caches.match(request).then(function (response) {
+        return response || fetch(request);
       })
     );
   }
